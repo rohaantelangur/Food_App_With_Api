@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+</head>
+<body>
+    <div id="navbar"></div>
+<div id="BB">
+  <div id="sign-up-form" action=""> 
+    <br><input type="text" id="username" placeholder=" User Name">
+    <br><input type="password" id="password" placeholder=" Password">
+    <button id="submit">Submit</button>
+  </div>
+</div>
+    
+</body>
+</html>
+<script type="module">
+    import {navbar, getUserDetail} from "./scripts/navbar.js";
+    document.getElementById("navbar").innerHTML = navbar();
+
+    
+    let login = async () => {
+    let user_data = {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+    };
+
+    user_data = JSON.stringify(user_data);
+    console.log(user_data)
+
+    try {
+    let res = await fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+      method: "POST",
+      body: user_data,
+      // mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data1 = await res.json();
+
+    let username = document.getElementById('username').value;
+    // localStorage.setItem("UserLogin",JSON.stringify(LoginData))
+    getUserDetail(username, data1.token);
+    console.log(data1);      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  document.getElementById("submit").addEventListener("click", login);
+  // login()
+
+  // let getUserDetail = async (username, token) => {
+  //     console.log("here");
+  //   let res = await fetch(
+  //     `https://masai-api-mocker.herokuapp.com/user/${username}`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     }
+  //   );
+
+  //   let data = await res.json();
+  //   console.log("user data: ", data);
+  // };
+</script>

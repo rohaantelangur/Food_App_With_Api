@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Random</title>
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <h1 id="t">Receipe Of The Month</h1>
+    <div id="show-receipe">
+
+    </div>
+
+  </body>
+</html>
+<script type="module">
+  import { navbar } from "./scripts/navbar.js";
+  document.getElementById("navbar").innerHTML = navbar();
+
+  try {
+    const res = await fetch(
+      "https://www.themealdb.com/api/json/v1/1/random.php"
+    );
+    let result = await res.json();
+    console.log(result);
+
+    let data = result.meals;
+    console.log(data);
+
+    if (data == undefined) {
+      document.getElementById("show-receipe").innerHTML = null;
+    } else {
+      document.getElementById("show-receipe").innerHTML = null;
+
+      data.forEach((element) => {
+        console.log(element);
+
+        let div = document.createElement("div");
+        let image = document.createElement("img");
+        image.src = element.strMealThumb;
+
+        let div1 = document.createElement("div");
+
+        let h2 = document.createElement("h3");
+        h2.innerHTML = element.strMeal + "<br>";
+
+        let p1 = document.createElement("p");
+        p1.innerHTML = `Area: ${element.strArea}` + "<br>";
+
+        let p2 = document.createElement("p");
+        p2.innerHTML = `Category: ${element.strCategory}` + "<br>";
+
+        let p3 = document.createElement("p");
+        p3.innerHTML =
+          `Ingredient: ${element.strIngredient1}, ${element.strIngredient2}, ${element.strIngredient3}, ${element.strIngredient4}, ${element.strIngredient5}, ${element.strIngredient6}, ${element.strIngredient7}, ${element.strIngredient8}, ${element.strIngredient9}, ${element.strIngredient10}, ${element.strIngredient11}, ${element.strIngredient12}, ${element.strIngredient13}, ${element.strIngredient14}, ${element.strIngredient15}, ${element.strIngredient16}, ${element.strIngredient17}, ${element.strIngredient18}, ${element.strIngredient19}, ${element.strIngredient20}` +
+          "<br>";
+
+        let p4 = document.createElement("p");
+        p4.innerHTML =
+          `Instructions: ${element.strInstructions}` + "<br>" + "<br>";
+
+        div1.append(h2, p1, p2, p3, p4);
+
+        div.append(image, div1);
+        document.getElementById("show-receipe").append(div);
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+</script>
