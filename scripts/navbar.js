@@ -53,7 +53,9 @@ const debounce = async () => {
 
     let data = await res.json();
     localStorage.setItem("Login",JSON.stringify (data))
-    console.log("user data: ", data);
+    alert("Login Successful...!")
+    window.location.href="index.html"
+    // console.log("user data: ", data);
 
   };
 
@@ -132,6 +134,10 @@ const debounce = async () => {
 
     let data = await res.json();
     console.log(data);
+    alert(data.message)
+    if(!data.error){
+      window.location.href="login.html"
+    }
   };
 
 
