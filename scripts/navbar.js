@@ -4,7 +4,7 @@ let navbar = () =>{
     <a href="index.html"><h1>Home</h1></a>
     <a href="search.html"><h1>Search</h1></a>
     <a href="daily.html"><h1>Daily Top</h1></a>
-    <a href="random.html"><h1>Monthy Top</h1></a>
+    <a href="random.html"><h1>Random</h1></a>
     <a href="login.html"><h1>Login</h1></a>
     <a href="signup.html"><h1>Sigh up</h1></a>
     `;
@@ -113,7 +113,70 @@ const debounce = async () => {
       document.getElementById("User-Details").innerHTML=`<h1 id="not-login">User Not Loged In</h1>`
     }
   }
+
+
+  const login = async () => {
+    let user_data = {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+    };
+
+    user_data = JSON.stringify(user_data);
+    console.log(user_data)
+
+    try {
+    let res = await fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+      method: "POST",
+      body: user_data,
+      // mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data1 = await res.json();
+
+    let username = document.getElementById('username').value;
+    // localStorage.setItem("UserLogin",JSON.stringify(LoginData))
+    getUserDetail(username, data1.token);
+    console.log(data1);      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const register = async (e) => {
+    e.preventDefault();
+
+    let form_data = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      username: document.getElementById("username").value,
+      mobile: document.getElementById("mobile").value,
+      description: document.getElementById("description").value,
+    };
+
+    form_data = JSON.stringify(form_data);
+
+    let res = await fetch(
+      "https://masai-api-mocker.herokuapp.com/auth/register",
+      {
+        method: "POST",
+        body: form_data,
+        // mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    let data = await res.json();
+    console.log(data);
+  };
+
+
     
     // export default { navbar, debounce }
-    export { navbar, debounce, append1, getUserDetail }
+    export { navbar, debounce, append1, getUserDetail, login, register }
     
