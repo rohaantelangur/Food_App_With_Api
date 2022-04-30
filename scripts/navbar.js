@@ -1,4 +1,4 @@
-let navbar = () =>{
+const navbar = () =>{
     // console.log("check")
     return `
     <a href="index.html"><h1>Home</h1></a>
@@ -21,14 +21,13 @@ const debounce = async () => {
       }, 500);
   };
   
-  let receipe = () => {
+  const receipe = () => {
     let search_receipe = document.getElementById("search-receipe").value;
     getReceipe(search_receipe);
   };
 
-  let getReceipe = async (keyword) => {
-    // const FetchData =()=>{
-    // }
+  const getReceipe = async (keyword) => {
+    
   let res = await fetch(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=${keyword}`
   );
@@ -36,52 +35,12 @@ const debounce = async () => {
   // return result.meals
   let data = result.meals;
 //   console.log(data);
-  displayData(data)
+  // displayData(data)
+  append2(data,"show-receipe");
   }
 
 
-  let displayData =(data)=>{
-    if (data == undefined) {
-        document.getElementById("show-receipe").innerHTML = null;
-      } else {
-        document.getElementById("show-receipe").innerHTML = null;
-
-        data.forEach((element) => {
-          console.log(element);
-
-          let div = document.createElement("div");
-          let image = document.createElement("img");
-          image.src = element.strMealThumb;
-
-          let div1 = document.createElement("div");
-
-          let h2 = document.createElement("h3");
-          h2.innerHTML = element.strMeal + "<br>";
-
-          let p1 = document.createElement("p");
-          p1.innerHTML = `Area: ${element.strArea}` + "<br>";
-
-          let p2 = document.createElement("p");
-          p2.innerHTML = `Category: ${element.strCategory}` + "<br>";
-
-          let p3 = document.createElement("p");
-          p3.innerHTML =
-            `Ingredient: ${element.strIngredient1}, ${element.strIngredient2}, ${element.strIngredient3}, ${element.strIngredient4}, ${element.strIngredient5}, ${element.strIngredient6}, ${element.strIngredient7}, ${element.strIngredient8}, ${element.strIngredient9}, ${element.strIngredient10}, ${element.strIngredient11}, ${element.strIngredient12}, ${element.strIngredient13}, ${element.strIngredient14}, ${element.strIngredient15}, ${element.strIngredient16}, ${element.strIngredient17}, ${element.strIngredient18}, ${element.strIngredient19}, ${element.strIngredient20}` +
-            "<br>";
-
-          let p4 = document.createElement("p");
-          p4.innerHTML =
-            `Instructions: ${element.strInstructions}` + "<br>" + "<br>";
-
-          div1.append(h2, p1, p2, p3, p4);
-
-          div.append(image, div1);
-          document.getElementById("show-receipe").append(div);
-        });
-      }
-    }
-
-    let getUserDetail = async (username, token) => {
+    const getUserDetail = async (username, token) => {
       console.log("here");
     let res = await fetch(
       `https://masai-api-mocker.herokuapp.com/user/${username}`,
@@ -176,7 +135,50 @@ const debounce = async () => {
   };
 
 
+  const append2 = (data,location) => {
+    console.log(location);
+    if (data == undefined) {
+      document.getElementById(location).innerHTML = null;
+    } else {
+      document.getElementById(location).innerHTML = null;
+
+      data.forEach((element) => {
+        console.log(element);
+
+        let div = document.createElement("div");
+        let image = document.createElement("img");
+        image.src = element.strMealThumb;
+
+        let div1 = document.createElement("div");
+
+        let h2 = document.createElement("h3");
+        h2.innerHTML = element.strMeal + "<br>";
+
+        let p1 = document.createElement("p");
+        p1.innerHTML = `Area: ${element.strArea}` + "<br>";
+
+        let p2 = document.createElement("p");
+        p2.innerHTML = `Category: ${element.strCategory}` + "<br>";
+
+        let p3 = document.createElement("p");
+        p3.innerHTML =
+          `Ingredient: ${element.strIngredient1}, ${element.strIngredient2}, ${element.strIngredient3}, ${element.strIngredient4}, ${element.strIngredient5}, ${element.strIngredient6}, ${element.strIngredient7}, ${element.strIngredient8}, ${element.strIngredient9}, ${element.strIngredient10}, ${element.strIngredient11}, ${element.strIngredient12}, ${element.strIngredient13}, ${element.strIngredient14}, ${element.strIngredient15}, ${element.strIngredient16}, ${element.strIngredient17}, ${element.strIngredient18}, ${element.strIngredient19}, ${element.strIngredient20}` +
+          "<br>";
+
+        let p4 = document.createElement("p");
+        p4.innerHTML =
+          `Instructions: ${element.strInstructions}` + "<br>" + "<br>";
+
+        div1.append(h2, p1, p2, p3, p4);
+
+        div.append(image, div1);
+        document.getElementById(location).append(div);
+      });
+    }
+  };
+
+
     
     // export default { navbar, debounce }
-    export { navbar, debounce, append1, getUserDetail, login, register }
+    export { navbar, debounce, append1, getUserDetail, login, register, append2 }
     
